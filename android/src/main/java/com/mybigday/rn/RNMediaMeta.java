@@ -94,6 +94,7 @@ public class RNMediaMeta extends ReactContextBaseJavaModule {
       String videoCodec = mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_CODEC);
       if (audioCodec == null && videoCodec == null) {
         promise.resolve(result);
+        mmr.release();
         return;
       }
 
