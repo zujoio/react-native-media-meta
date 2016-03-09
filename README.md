@@ -1,5 +1,7 @@
 # React Native Media Meta
 
+[![NPM version](http://img.shields.io/npm/v/react-native-media-meta.svg?style=flat)](https://www.npmjs.com/package/react-native-media-meta)
+
 > Get media file metadata in your React Native app
 
 ## Installation
@@ -82,7 +84,7 @@ Resolve: Object - included following keys (If it's found)
 * `height` - the thumb height
 * Others:
 
-__*[Android]*__ We using [FFmpegMediaMetadataRetriever](https://github.com/wseemann/FFmpegMediaMetadataRetriever), see [RNMediaMeta.java#L36](android/src/main/java/com/mybigday.rn/RNMediaMeta.java#L36) for more information.  
+__*[Android]*__ We using [FFmpegMediaMetadataRetriever](https://github.com/wseemann/FFmpegMediaMetadataRetriever), see [RNMediaMeta.java#L36](android/src/main/java/com/mybigday/rn/RNMediaMeta.java#L36) for more information.  
 __*[iOS]*__ We using [official AVMatadataItem](https://developer.apple.com/library/mac/documentation/AVFoundation/Reference/AVFoundationMetadataKeyReference/#//apple_ref/doc/constant_group/Common_Metadata_Keys), see [RNMediaMeta.m#L9](ios/RNMediaMeta/RNMediaMeta.m#L9) for more information.
 
 ## Roadmap
