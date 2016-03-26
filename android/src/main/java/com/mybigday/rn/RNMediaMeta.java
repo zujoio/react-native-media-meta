@@ -111,7 +111,7 @@ public class RNMediaMeta extends ReactContextBaseJavaModule {
         byte[] bytes = convertToBytes(bmp);
         result.putInt("width", bmp.getWidth());
         result.putInt("height", bmp.getHeight());
-        result.putString("thumb", "data:image/png;base64," + convertToBase64(bytes));
+        result.putString("thumb", convertToBase64(bytes));
       }
     } catch(Exception e) {
       e.printStackTrace();

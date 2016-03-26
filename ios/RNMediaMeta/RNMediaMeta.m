@@ -73,7 +73,7 @@ RCT_EXPORT_METHOD(get:(NSString *)path
       [result setObject:@(thumbnail.size.width) forKey:@"width"];
       [result setObject:@(thumbnail.size.height) forKey:@"height"];
       NSString *data = [UIImagePNGRepresentation(thumbnail) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-      [result setObject:[NSString stringWithFormat: @"%@ %@", @"data:image/png;base64,", data]
+      [result setObject:data
                  forKey:@"thumb"];
     }
     
@@ -89,7 +89,7 @@ RCT_EXPORT_METHOD(get:(NSString *)path
       [result setObject:@([asset duration].value) forKey:@"duration"];
       
       NSString *data = [UIImagePNGRepresentation(thumbnail) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-      [result setObject:[NSString stringWithFormat: @"%@ %@", @"data:image/png;base64,", data]
+      [result setObject:data
                  forKey:@"thumb"];
     }
     CGImageRelease(imageRef);
