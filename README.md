@@ -42,7 +42,7 @@ dependencies {
 ```java
 ......
 
-import com.mybigday.rn.*;   // import
+import com.mybigday.rnmediameta.*;   // import
 
 public class MainActivity extends ReactActivity {
 
