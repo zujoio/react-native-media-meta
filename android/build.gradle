@@ -30,12 +30,9 @@ repositories {
     maven {
         url "$projectDir/../../react-native/android"
     }
-    maven {
-        url "$projectDir/../example/node_modules/react-native/android"
-    }
 }
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
-    compile 'com.github.wseemann:FFmpegMediaMetadataRetriever:1.0.11'
+    compile 'com.github.wseemann:FFmpegMediaMetadataRetriever:1.0.+'
 }
