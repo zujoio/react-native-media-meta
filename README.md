@@ -6,59 +6,8 @@
 
 ```bash
 $ npm install react-native-media-meta --save
+$ react-native link
 ```
-
-## Setup
-
-#### iOS
-
-In XCode, in the project navigator:
-
-* Right click `Libraries` ➜ `Add Files to [your project's name]`, Add `node_modules/react-native-media-meta/ios/RNMediaMeta.xcodeproj`.
-* Add `libRNMediaMeta.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-
-#### Android
-
-* Edit `android/settings.gradle` of your project:
-
-```gradle
-...
-include ':react-native-media-meta'
-project(':react-native-media-meta').projectDir = new File(settingsDir, '../node_modules/react-native-media-meta/android')
-```
-
-* Edit `android/app/build.gradle` of your project:
-
-```gradle
-...
-dependencies {
-    ...
-    compile project(':react-native-media-meta')
-}
-```
-
-* Add package to `MainActivity`
-
-```java
-......
-
-import com.mybigday.rnmediameta.*;   // import
-
-public class MainActivity extends ReactActivity {
-
-    ......
-
-    @Override
-    protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new RNMediaMetaPackage()   // add package
-        );
-    }
-}
-```
-
-You can use [rnpm](https://github.com/rnpm/rnpm) instead of above steps.
 
 ## Usage
 
