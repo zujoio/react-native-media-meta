@@ -37,5 +37,5 @@ repositories {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
-    compile 'com.github.wseemann:FFmpegMediaMetadataRetriever:1.0.3'
+    compile 'com.github.wseemann:FFmpegMediaMetadataRetriever:1.0.11'
 }
