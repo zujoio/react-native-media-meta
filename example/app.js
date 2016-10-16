@@ -1,7 +1,6 @@
-'use strict';
-import React, {
+import React, { Component } from 'react';
+import {
   AppRegistry,
-  Component,
   StyleSheet,
   Text,
   View,
@@ -10,7 +9,7 @@ import React, {
 } from 'react-native';
 import fs from 'react-native-fs';
 
-const savePath = fs.DocumentDirectoryPath + "/example.mp4";
+const savePath = fs.DocumentDirectoryPath + '/example.mp4';
 const videoURL = 'http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4';
 
 class MediaMetaSample extends Component {
@@ -26,22 +25,23 @@ class MediaMetaSample extends Component {
 
   downloadFile = async () => {
     try {
-      const stat = await fs.stat(savePath);
-      if (stat.isFile()) {
-        this.setState({ downloaded: true});
-        return;
+      if (await fs.exists(savePath)) {
+        const stat = await fs.stat(savePath);
+        console.log(stat);
+        if (stat.isFile()) {
+          this.setState({ downloaded: true});
+          return;
+        }
       }
+      
     } catch(e) {}
-    
-    fs.downloadFile(videoURL, savePath, () => {
-      console.log('start donwload');
-    }, (downloadResult) => {
-      console.log(downloadResult);
-      if (downloadResult.contentLength == downloadResult.bytesWritten){
-        console.log('finish');
-        this.setState({ downloaded: true});
-      }
-    });
+
+    await fs.downloadFile({
+      fromUrl: videoURL,
+      toFile: savePath,
+    }).promise;
+    console.log('finish');
+    this.setState({ downloaded: true});
   };
 
   render() {
@@ -55,25 +55,24 @@ class MediaMetaSample extends Component {
         })
         .catch(e => console.log(e));
     }
-    console.log(data);
     return (
       <View style={styles.container}>
         {
           (() => {
             if (!downloaded) {
-              return <Text style={styles.welcome}>Downloading...</Text>;
+              return <Text style={styles.text}>Downloading...</Text>;
             } else if (!loaded) {
-              return <Text style={styles.welcome}>Loading...</Text>;
+              return <Text style={styles.text}>Loading...</Text>;
             } else {
               if (data && data.thumb) {
                 return (
                   <Image
-                    style={{width: 100, height: 100, resizeMode: 'cover', borderWidth: 1, borderColor: 'red'}}
-                    source={{uri: data.thumb}}
+                    style={styles.image}
+                    source={{ uri: 'data:image/png;base64,' + data.thumb }}
                   />
                 );
               } else {
-                return <Text style={styles.welcome}>No thumb</Text>;
+                return <Text style={styles.text}>No thumb</Text>;
               }
             }
           })()
@@ -90,16 +89,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
+  text: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  image: {
+    width: 100,
+    height: 100,
+    resizeMode: 'cover',
+    borderWidth: 1,
+    borderColor: 'red',
+  }
 });
 
 AppRegistry.registerComponent('MediaMetaSample', () => MediaMetaSample);
