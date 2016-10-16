@@ -8,6 +8,7 @@ import {
   NativeModules
 } from 'react-native';
 import fs from 'react-native-fs';
+import MediaMeta from 'react-native-media-meta';
 
 const savePath = fs.DocumentDirectoryPath + '/example.mp4';
 const videoURL = 'http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4';
@@ -27,21 +28,20 @@ class MediaMetaSample extends Component {
     try {
       if (await fs.exists(savePath)) {
         const stat = await fs.stat(savePath);
-        console.log(stat);
-        if (stat.isFile()) {
+        if (stat.isFile() && stat.size) {
           this.setState({ downloaded: true});
           return;
         }
       }
-      
-    } catch(e) {}
-
-    await fs.downloadFile({
-      fromUrl: videoURL,
-      toFile: savePath,
-    }).promise;
-    console.log('finish');
-    this.setState({ downloaded: true});
+      await fs.downloadFile({
+        fromUrl: videoURL,
+        toFile: savePath,
+      }).promise;
+      console.log('finish');
+      this.setState({ downloaded: true}); 
+    } catch(e) {
+      console.error(e);
+    }
   };
 
   render() {
@@ -49,11 +49,11 @@ class MediaMetaSample extends Component {
     if (!downloaded) {
       this.downloadFile();
     } else if (!loaded) {
-      NativeModules.RNMediaMeta.get(savePath)
+      MediaMeta.get(savePath)
         .then(result => {
           this.setState({ loaded: true, data: result });
         })
-        .catch(e => console.log(e));
+        .catch(e => console.error(e));
     }
     return (
       <View style={styles.container}>
