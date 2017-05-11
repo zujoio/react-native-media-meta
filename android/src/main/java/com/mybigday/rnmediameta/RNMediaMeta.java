@@ -110,19 +110,20 @@ public class RNMediaMeta extends ReactContextBaseJavaModule {
         // Bitmap bmp2 = mmr.getFrameAtTime((long) 4E6, FFmpegMediaMetadataRetriever.OPTION_CLOSEST);
         // if (bmp2 != null) bmp = bmp2;
 
-        // the image returned seems to be always in landscape mode and does not follow
-        // the rotation of the video.
-        // get the rotation from the metadata and apply the correction so the image is straight.
+        /*
+         * The image returned seems to be always in landscape mode and does not follow
+         * the rotation of the video.
+         * get the rotation from the metadata and apply the correction so the image is straight.
+         */
+        String rotation = mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
+        String createTime = mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_CREATION_TIME);
+        String duration = mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_DURATION);
 
-        String rotation =  mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
-        String createTime =  mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_CREATION_TIME);
-        String duration =  mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_DURATION);
-
-        if( rotation != null )  {
-            Bitmap rotatedBmp = RotateBitmap(bmp, Float.parseFloat(rotation));
-            if(rotatedBmp != null ) {
-                bmp = rotatedBmp;
-            }
+        if (rotation != null)  {
+          Bitmap rotatedBmp = RotateBitmap(bmp, Float.parseFloat(rotation));
+          if (rotatedBmp != null) {
+            bmp = rotatedBmp;
+          }
         }
 
         byte[] bytes = convertToBytes(bmp);
