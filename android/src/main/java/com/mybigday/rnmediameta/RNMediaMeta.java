@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import wseemann.media.FFmpegMediaMetadataRetriever;
 import android.util.Base64;
+import android.graphics.Matrix;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.NativeModule;
@@ -108,10 +109,29 @@ public class RNMediaMeta extends ReactContextBaseJavaModule {
       if (bmp != null) {
         // Bitmap bmp2 = mmr.getFrameAtTime((long) 4E6, FFmpegMediaMetadataRetriever.OPTION_CLOSEST);
         // if (bmp2 != null) bmp = bmp2;
+
+        // the image returned seems to be always in landscape mode and does not follow
+        // the rotation of the video.
+        // get the rotation from the metadata and apply the correction so the image is straight.
+
+        String rotation =  mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
+        String createTime =  mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_CREATION_TIME);
+        String duration =  mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_DURATION);
+
+        if( rotation != null )  {
+            Bitmap rotatedBmp = RotateBitmap(bmp, Float.parseFloat(rotation));
+            if(rotatedBmp != null ) {
+                bmp = rotatedBmp;
+            }
+        }
+
         byte[] bytes = convertToBytes(bmp);
         result.putInt("width", bmp.getWidth());
         result.putInt("height", bmp.getHeight());
         result.putString("thumb", convertToBase64(bytes));
+        result.putString("rotation", rotation);
+        result.putString("createTime", createTime);
+        result.putString("duration", duration);
       }
     } catch(Exception e) {
       e.printStackTrace();
@@ -119,6 +139,13 @@ public class RNMediaMeta extends ReactContextBaseJavaModule {
       promise.resolve(result);
       mmr.release();
     }
+  }
+
+  private Bitmap RotateBitmap(Bitmap source, float angle)
+  {
+      Matrix matrix = new Matrix();
+      matrix.postRotate(angle);
+      return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
   }
 
   @ReactMethod
