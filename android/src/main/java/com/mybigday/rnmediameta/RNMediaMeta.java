@@ -79,9 +79,6 @@ public class RNMediaMeta extends ReactContextBaseJavaModule {
   }
 
   private void getMetadata(String path, ReadableMap options, Promise promise) {
-    Boolean getBitmap = options.hasKey("getThumb") ? options.getBoolean("getThumb") : true;
-
-
     File f = new File(path);
     if (!f.exists() || f.isDirectory()) {
       promise.reject("-15", "file not found");
@@ -108,14 +105,14 @@ public class RNMediaMeta extends ReactContextBaseJavaModule {
         putString(result, meta, mmr.extractMetadata(meta));
       }
 
-      if(result.hasKey("framerate") && !result.hasKey("rotation")) {
+      if (result.hasKey("framerate") && !result.hasKey("rotation")) {
         putString(result, "rotation", mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION));
       }
 
       // Legacy support & camelCase
       result.putString("createTime", result.getString("creation_time"));
 
-      if(getBitmap) {
+      if (options.getBoolean("getThumb")) {
         // get thumb
         Bitmap bmp = mmr.getFrameAtTime();
         if (bmp != null) {
@@ -129,10 +126,10 @@ public class RNMediaMeta extends ReactContextBaseJavaModule {
           */
 
           if (result.hasKey("rotation")) {
-           Bitmap rotatedBmp = RotateBitmap(bmp, Float.parseFloat(result.getString("rotation")));
-           if (rotatedBmp != null) {
-             bmp = rotatedBmp;
-           }
+            Bitmap rotatedBmp = RotateBitmap(bmp, Float.parseFloat(result.getString("rotation")));
+            if (rotatedBmp != null) {
+              bmp = rotatedBmp;
+            }
           }
 
           byte[] bytes = convertToBytes(bmp);
@@ -152,9 +149,9 @@ public class RNMediaMeta extends ReactContextBaseJavaModule {
 
   private Bitmap RotateBitmap(Bitmap source, float angle)
   {
-      Matrix matrix = new Matrix();
-      matrix.postRotate(angle);
-      return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    Matrix matrix = new Matrix();
+    matrix.postRotate(angle);
+    return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
   }
 
 
