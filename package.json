@@ -1,6 +1,6 @@
 {
   "name": "react-native-media-meta",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Get media file metadata in your React Native app",
   "main": "index.js",
   "scripts": {},
@@ -8,12 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/mybigday/react-native-media-meta.git"
   },
-  "keywords": [
-    "react",
-    "native",
-    "media",
-    "metadata"
-  ],
+  "keywords": ["react", "native", "media", "metadata"],
   "author": "Jhen <developer@jhen.me>",
   "license": "MIT"
 }
